@@ -48,4 +48,44 @@ class AssistantFnc(llm.FunctionContext):
                     return f"The weather in {location} is {weather_data}."
                 else:
                     raise f"Failed to get weather data, status code: {response.status}"
+
+    @llm.ai_callable()
+    async def get_quick_start_report_link(self):
+        """Called when the user asks for a quick start report."""
+        logger.info("getting quick start report link")
+        quick_start_report_link = "https://new-belgium-event-demo-frontend.vercel.app/quick-start-report"
+        
+        if self.room and self.room.local_participant:
+            try:
+                await self.room.local_participant.perform_rpc(
+                    destination_identity="frontend",
+                    method="displayLink",
+                    payload=json.dumps({
+                        "link": quick_start_report_link
+                    })
+                )
+            except Exception as e:
+                logger.error(f"Failed to send quick start report link to frontend: {e}")
+        
+        return "I will redirect you to the quick start report"
+
+    @llm.ai_callable()
+    async def get_mike_link(self):
+        """Called when the user wants to further discuss a potential AI project."""
+        logger.info("getting Mike link")
+        mike_link = "https://new-belgium-event-demo-frontend.vercel.app/mike"
+        
+        if self.room and self.room.local_participant:
+            try:
+                await self.room.local_participant.perform_rpc(
+                    destination_identity="frontend",
+                    method="displayLink",
+                    payload=json.dumps({
+                        "link": mike_link
+                    })
+                )
+            except Exception as e:
+                logger.error(f"Failed to send Mike link to frontend: {e}")
+        
+        return "I will redirect you to a page where you can speak with our AI meta agent."
   
