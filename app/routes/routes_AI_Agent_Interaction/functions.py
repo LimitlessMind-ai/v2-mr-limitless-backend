@@ -31,6 +31,20 @@ class AssistantFnc(llm.FunctionContext):
             async with session.get(url) as response:
                 if response.status == 200:
                     weather_data = await response.text()
+                    # Send weather data to frontend via RPC
+                    if self.room and self.room.local_participant:
+                        try:
+                            await self.room.local_participant.perform_rpc(
+                                destination_identity="frontend",  # Broadcast to all participants
+                                method="displayWeather",
+                                payload=json.dumps({
+                                    "location": location,
+                                    "weather": weather_data
+                                })
+                            )
+                        except Exception as e:
+                            logger.error(f"Failed to send weather data to frontend: {e}")
+                    
                     return f"The weather in {location} is {weather_data}."
                 else:
                     raise f"Failed to get weather data, status code: {response.status}"
