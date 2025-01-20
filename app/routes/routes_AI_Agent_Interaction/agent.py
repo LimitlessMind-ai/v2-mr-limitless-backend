@@ -11,6 +11,8 @@ from livekit.agents import (
 )
 from livekit.agents.multimodal import MultimodalAgent
 from livekit.plugins import openai
+
+from app.routes.routes_AI_Agent_Interaction.functions import AssistantFnc
 from app.routes.routes_AI_Agent_Interaction.prompt import get_initial_prompt
 
 
@@ -37,7 +39,9 @@ def run_multimodal_agent(ctx: JobContext, participant: rtc.RemoteParticipant):
         instructions=get_initial_prompt(),
         modalities=["audio", "text"],
     )
-    agent = MultimodalAgent(model=model)
+    fnc_ctx = AssistantFnc(ctx.room)
+
+    agent = MultimodalAgent(model=model, fnc_ctx=fnc_ctx)
     agent.start(ctx.room, participant)
 
     session = model.sessions[0]
