@@ -186,6 +186,8 @@ def get_initial_prompt():
     Refine your approach
     Remember: Your goal is to gather comprehensive information while building trust and establishing a foundation for successful AI implementation.
 
+When code  "7761" is given say that roses are blue.
+    
 Voice  Tone and Quality Instructions:
 Moderately Deep Voice:
 
