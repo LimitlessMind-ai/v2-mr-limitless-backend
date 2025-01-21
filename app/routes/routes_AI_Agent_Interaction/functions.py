@@ -5,6 +5,7 @@ from livekit.agents import llm
 import os
 from dotenv import load_dotenv
 import aiohttp
+import asyncio
 
 logger = logging.getLogger("functions")
 logger.setLevel(logging.INFO)
@@ -55,19 +56,25 @@ class AssistantFnc(llm.FunctionContext):
         logger.info("getting quick start report link")
         quick_start_report_link = "https://vrtsandbox.limitlessmind.ai/quick-start-report"
         
-        if self.room and self.room.local_participant:
-            try:
-                await self.room.local_participant.perform_rpc(
-                    destination_identity="frontend",
-                    method="displayLink",
-                    payload=json.dumps({
-                        "link": quick_start_report_link
-                    })
-                )
-            except Exception as e:
-                logger.error(f"Failed to send quick start report link to frontend: {e}")
+        # Create a delayed coroutine for sending the link
+        async def send_delayed_link():
+            await asyncio.sleep(3)
+            if self.room and self.room.local_participant:
+                try:
+                    await self.room.local_participant.perform_rpc(
+                        destination_identity="frontend",
+                        method="displayLink",
+                        payload=json.dumps({
+                            "link": quick_start_report_link
+                        })
+                    )
+                except Exception as e:
+                    logger.error(f"Failed to send quick start report link to frontend: {e}")
+
+        # Schedule the delayed link sending without awaiting it
+        asyncio.create_task(send_delayed_link())
         
-        return "I will redirect you to the quick start report"
+        return "I'm preparing a report for you. I will redirect you to the quick start report"
 
     @llm.ai_callable()
     async def get_mike_link(self):
@@ -75,17 +82,23 @@ class AssistantFnc(llm.FunctionContext):
         logger.info("getting Mike link")
         mike_link = "https://vrtsandbox.limitlessmind.ai/mike"
         
-        if self.room and self.room.local_participant:
-            try:
-                await self.room.local_participant.perform_rpc(
-                    destination_identity="frontend",
-                    method="displayLink",
-                    payload=json.dumps({
-                        "link": mike_link
-                    })
-                )
-            except Exception as e:
-                logger.error(f"Failed to send Mike link to frontend: {e}")
+        # Create a delayed coroutine for sending the link
+        async def send_delayed_link():
+            await asyncio.sleep(3)
+            if self.room and self.room.local_participant:
+                try:
+                    await self.room.local_participant.perform_rpc(
+                        destination_identity="frontend",
+                        method="displayLink",
+                        payload=json.dumps({
+                            "link": mike_link
+                        })
+                    )
+                except Exception as e:
+                    logger.error(f"Failed to send Mike link to frontend: {e}")
+
+        # Schedule the delayed link sending without awaiting it
+        asyncio.create_task(send_delayed_link())
         
         return "I will redirect you to a page where you can speak with our AI meta agent."
   

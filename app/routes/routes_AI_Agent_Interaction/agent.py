@@ -11,6 +11,7 @@ from livekit.agents import (
 )
 from livekit.agents.multimodal import MultimodalAgent
 from livekit.plugins import openai
+from livekit.plugins.openai.realtime import ServerVadOptions
 
 from app.routes.routes_AI_Agent_Interaction.functions import AssistantFnc
 from app.routes.routes_AI_Agent_Interaction.prompt import get_initial_prompt
@@ -38,6 +39,12 @@ def run_multimodal_agent(ctx: JobContext, participant: rtc.RemoteParticipant):
     model = openai.realtime.RealtimeModel(
         instructions=get_initial_prompt(),
         modalities=["audio", "text"],
+        voice="ash",
+        turn_detection=ServerVadOptions(
+            threshold=0.5,
+            prefix_padding_ms=300,
+            silence_duration_ms=500,
+        )
     )
     fnc_ctx = AssistantFnc(ctx.room)
 
