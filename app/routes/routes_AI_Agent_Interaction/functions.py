@@ -53,7 +53,7 @@ class AssistantFnc(llm.FunctionContext):
     async def get_quick_start_report_link(self):
         """Called when the user asks for a quick start report."""
         logger.info("getting quick start report link")
-        quick_start_report_link = "https://new-belgium-event-demo-frontend.vercel.app/quick-start-report"
+        quick_start_report_link = "https://vrtsandbox.limitlessmind.ai/quick-start-report"
         
         if self.room and self.room.local_participant:
             try:
@@ -73,7 +73,7 @@ class AssistantFnc(llm.FunctionContext):
     async def get_mike_link(self):
         """Called when the user wants to further discuss a potential AI project."""
         logger.info("getting Mike link")
-        mike_link = "https://new-belgium-event-demo-frontend.vercel.app/mike"
+        mike_link = "https://vrtsandbox.limitlessmind.ai/mike"
         
         if self.room and self.room.local_participant:
             try:
