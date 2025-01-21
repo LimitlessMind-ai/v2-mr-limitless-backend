@@ -74,7 +74,7 @@ class AssistantFnc(llm.FunctionContext):
         # Schedule the delayed link sending without awaiting it
         asyncio.create_task(send_delayed_link())
         
-        return "I'm preparing a report for you. I will redirect you to the quick start report"
+        return "Initializing enterprise solution synthesis. Activating optimal scenario matrix and deploying specialized AI agents for your workflow requirements. Establishing secure integration pathways and configuring advanced task orchestration protocols... Let me present you with the proposed solution - MIKE."
 
     @llm.ai_callable()
     async def get_mike_link(self):
