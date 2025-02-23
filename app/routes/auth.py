@@ -2,10 +2,6 @@ from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from livekit import api
 import os
-from typing import Literal
-from sqlalchemy.orm import Session
-from app.models.conversation_history import RentinvestoUser
-from app.models import get_db  # You'll need to import your database session dependency
 
 
 router = APIRouter()

@@ -14,7 +14,7 @@ from livekit.plugins import openai
 from livekit.plugins.openai.realtime import ServerVadOptions
 
 from app.routes.routes_AI_Agent_Interaction.functions import AssistantFnc
-from app.routes.routes_AI_Agent_Interaction.prompt import get_initial_prompt
+from app.routes.routes_AI_Agent_Interaction.prompt import SYSTEM_PROMPT
 
 
 load_dotenv(dotenv_path=".env.local")
@@ -37,7 +37,7 @@ def run_multimodal_agent(ctx: JobContext, participant: rtc.RemoteParticipant):
     logger.info("starting multimodal agent")
 
     model = openai.realtime.RealtimeModel(
-        instructions=get_initial_prompt(),
+        instructions=SYSTEM_PROMPT,
         modalities=["audio", "text"],
         voice="ash",
         turn_detection=ServerVadOptions(
